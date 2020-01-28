@@ -6,14 +6,14 @@ using Rhino.Geometry;
 
 namespace PaperBug
 {
-    public class gh_Doc_Pages : GH_Component
+    public class gh_App_RunScript : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the DocumentPages class.
         /// </summary>
-        public gh_Doc_Pages()
-          : base("Document Pages", "InDesign.Doc.Pages",
-              "Get the Pages in The Document",
+        public gh_App_RunScript()
+          : base("Run Script", "InDesign.App.Run Script",
+              "Runs a Script from path in The Application",
               "PaperBug", "01.InDesign")
         {
         }
@@ -23,7 +23,9 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Document", "Doc", "Indesign Document", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Application", "App", "Indesign Application Instance", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "Path", "Path to the Script File", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Run", "Run", "Set True to Run the Script", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -31,7 +33,6 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Pages", "Pages", "Pages of the Document", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -40,13 +41,24 @@ namespace PaperBug
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            InDesignInterface.Indd_Document doc = null;
+            InDesignInterface.Indd_Application app = null;
+            string path = null;
+            bool run = false;
 
-            if (!DA.GetData(0, ref doc))
+            if (!DA.GetData(0, ref app))
             { return; }
 
-            List<InDesignInterface.Indd_Page> pages = doc.pages();
-            DA.SetDataList(0, pages);
+            if (!DA.GetData(1, ref path))
+            { return; }
+
+            if (!DA.GetData(2, ref run))
+            { return; }
+
+            if (run)
+            {
+                app.RunScript(path, app);
+            }
+
 
         }
 
@@ -71,7 +83,8 @@ namespace PaperBug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("c2cb3da5-2786-4414-86cb-8ea8559be131"); }
+            get { return new Guid("10AF40B0-9FC4-4236-A312-3DBE1681DC5E"); }
+            
         }
     }
 }

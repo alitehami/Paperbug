@@ -26,14 +26,6 @@ namespace PaperBug.InDesignInterface
 
         public static List<string> OpenDocsNames() 
         {
-            //Application app = null;
-            //Type oType = Type.GetTypeFromProgID("InDesign.Application");
-            //if (oType != null)
-            //{
-            //    app = System.Runtime.InteropServices.Marshal.GetActiveObject("InDesign.Application") as InDesign.Application;
-            //}
-            //else return null;
-
             Type type = Type.GetTypeFromProgID("InDesign.Application");
             Application app = (Application)Activator.CreateInstance(type);
 

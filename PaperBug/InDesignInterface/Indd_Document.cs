@@ -29,5 +29,19 @@ namespace PaperBug.InDesignInterface
             return docPages;
         }
 
+
+        public void CloseDocument(Indd_Document doc, bool save)
+        {
+            idSaveOptions saveOp = save ? idSaveOptions.idYes : idSaveOptions.idNo;
+
+            //System.IO.Directory.CreateDirectory(Environment.SpecialFolder.Desktop.ToString() + "\\PaperBug_Temp\\");
+            string desktop = @"C:\Users\dxbaat\Desktop\PaperBug_Temp\" + doc.InDesignDoc.Name + ".indd";
+
+            if (save)
+                doc.InDesignDoc.Close(saveOp, desktop);
+            else
+                doc.InDesignDoc.Close(saveOp);
+        }
+
     }
 }

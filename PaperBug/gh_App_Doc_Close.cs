@@ -6,14 +6,14 @@ using Rhino.Geometry;
 
 namespace PaperBug
 {
-    public class gh_Doc_Pages : GH_Component
+    public class gh_App_Doc_Close : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the DocumentPages class.
         /// </summary>
-        public gh_Doc_Pages()
-          : base("Document Pages", "InDesign.Doc.Pages",
-              "Get the Pages in The Document",
+        public gh_App_Doc_Close()
+          : base("Close Document", "InDesign.App.Close Document",
+              "Closes A Document",
               "PaperBug", "01.InDesign")
         {
         }
@@ -23,7 +23,12 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Document", "Doc", "Indesign Document", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Document", "Doc", "Indesign Document Instance", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "Path", "Path to save the new File", GH_ParamAccess.item);
+            pManager[1].Optional = true;
+            pManager.AddBooleanParameter("Save", "Save", "Set True to save before Closing the Document", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Run", "Run", "Set True to Close the Document", GH_ParamAccess.item);
+
         }
 
         /// <summary>
@@ -31,7 +36,6 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Pages", "Pages", "Pages of the Document", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -41,12 +45,24 @@ namespace PaperBug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             InDesignInterface.Indd_Document doc = null;
+            string path = null;
+            bool save = false;
+            bool run = false;
 
             if (!DA.GetData(0, ref doc))
             { return; }
+            if (!DA.GetData(2, ref save))
+            { return; }
+            if (!DA.GetData(3, ref run))
+            { return; }
 
-            List<InDesignInterface.Indd_Page> pages = doc.pages();
-            DA.SetDataList(0, pages);
+            if (run)
+            {
+                doc.CloseDocument(doc,save);
+            }
+
+
+
 
         }
 
@@ -71,7 +87,8 @@ namespace PaperBug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("c2cb3da5-2786-4414-86cb-8ea8559be131"); }
+            get { return new  Guid("E008B1B5-A271-4762-858F-9199BE8F495F") ; }
+            
         }
     }
 }

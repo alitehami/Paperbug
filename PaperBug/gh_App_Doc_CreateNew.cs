@@ -6,14 +6,14 @@ using Rhino.Geometry;
 
 namespace PaperBug
 {
-    public class gh_Doc_Pages : GH_Component
+    public class gh_App_Doc_CreateNew : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the DocumentPages class.
         /// </summary>
-        public gh_Doc_Pages()
-          : base("Document Pages", "InDesign.Doc.Pages",
-              "Get the Pages in The Document",
+        public gh_App_Doc_CreateNew()
+          : base("Create Document", "InDesign.App.Create Document",
+              "Creates A New Document",
               "PaperBug", "01.InDesign")
         {
         }
@@ -23,7 +23,10 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Document", "Doc", "Indesign Document", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Application", "App", "Indesign Application Instance", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "Path", "Path to save the new File", GH_ParamAccess.item);
+            pManager[1].Optional = true;
+            pManager.AddBooleanParameter("Run", "Run", "Set True to Create the new Document", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -31,7 +34,8 @@ namespace PaperBug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Pages", "Pages", "Pages of the Document", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Document", "Doc", "Currently Created Document", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Name", "Name", "Document's Name", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -40,13 +44,24 @@ namespace PaperBug
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            InDesignInterface.Indd_Document doc = null;
+            InDesignInterface.Indd_Application app = null;
+            string path = null;
+            bool run = false;
 
-            if (!DA.GetData(0, ref doc))
+            if (!DA.GetData(0, ref app))
+            { return; }
+            if (!DA.GetData(2, ref run))
             { return; }
 
-            List<InDesignInterface.Indd_Page> pages = doc.pages();
-            DA.SetDataList(0, pages);
+            if (run)
+            {
+                InDesignInterface.Indd_Document doc = app.CreateNewDocument();
+                DA.SetData(0, doc);
+                DA.SetData(1, doc.InDesignDoc.Name);
+            }
+
+
+
 
         }
 
@@ -71,7 +86,8 @@ namespace PaperBug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("c2cb3da5-2786-4414-86cb-8ea8559be131"); }
+            get { return new Guid("65196B0A-20A7-4CCE-86E7-D1A7E190DB21"); }
+            
         }
     }
 }

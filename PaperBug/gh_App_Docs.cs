@@ -14,7 +14,7 @@ namespace PaperBug
         public gh_App_Docs()
           : base("Open Documents", "Open Docs",
               "Gets A List of All Open Documents in the Input InDesign Application",
-              "PaperBug","01.Setup")
+              "PaperBug","01.InDesign")
         {
         }
 
@@ -33,6 +33,7 @@ namespace PaperBug
         {
             pManager.AddGenericParameter("Documents", "Docs", "Current Open Documents Objects", GH_ParamAccess.list);
             pManager.AddGenericParameter("Names","Names","Current Open Documents Names",GH_ParamAccess.list);
+            pManager.AddGenericParameter("Active Document", "Active Doc", "Current Active Document", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,15 +44,32 @@ namespace PaperBug
         {
             InDesignInterface.Indd_Application app = null;
 
-            if (!DA.GetData(0, ref app))
-            { return; }
+            if (!DA.GetData(0, ref app)) return;
+
+            string ativeDocName;
+
+            try 
+                {
+                ativeDocName = "Active Doc: " + app.InDesignApp.ActiveDocument.Name;
+                Message = ativeDocName;
+            } 
+            catch  (Exception e) 
+                {
+                Message = "No Docuemnts are Open!";
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, e.Message);
+                return; 
+                }
+
+
 
             List<string> docsNames = new List<string>();
 
-            List<InDesignInterface.Indd_Document> docs = (app as InDesignInterface.Indd_Application).OpenDocsNames(out docsNames);
+            List<InDesignInterface.Indd_Document> docs = (app as InDesignInterface.Indd_Application).OpenedDocuments(out docsNames);
+
             DA.SetDataList(0, docs);
             DA.SetDataList(1, docsNames);
-           
+            DA.SetData(2, new InDesignInterface.Indd_Document(app.InDesignApp.ActiveDocument as InDesign.Document));
+
         }
 
 

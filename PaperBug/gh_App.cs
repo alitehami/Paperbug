@@ -25,7 +25,7 @@ namespace PaperBug
         public gh_App()
           : base("InDesign.App", "Indd.App",
               "Creates An Instance of the InDesign App",
-              "PaperBug", "01.Setup")
+              "PaperBug", "01.InDesign")
         {
         }
 
@@ -79,7 +79,6 @@ namespace PaperBug
 
             if (r == true)
             {
-                //DA.SetData(0, InDesignInterface.InddInterop.Run() as InDesign.Application);
                 DA.SetData(0, new Indd_Application());
             }
 
