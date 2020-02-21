@@ -27,12 +27,12 @@ namespace PaperBug.InDesignInterface
         {
             names = new List<string>();
             List<Indd_PageItem> pi = new List<Indd_PageItem>();
-            foreach (PageItem i in InDesignPage.AllPageItems)
+            foreach (var i in InDesignPage.AllPageItems)
             {
                 PageItem pItem = i as PageItem;
-                string pType = pItem.Name;
-                names.Add(pType);
-                pi.Add(new Indd_PageItem(i));
+                string pName = pItem.Label;
+                names.Add(pName);
+                pi.Add(new Indd_PageItem(pItem));
             }
 
             return pi;
