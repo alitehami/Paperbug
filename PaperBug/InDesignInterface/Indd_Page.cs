@@ -22,22 +22,21 @@ namespace PaperBug.InDesignInterface
             InDesignPage.Place(path);
         }
 
-        public List<PageItem> _AllPageItemsOfType(Page p, out List<string> names, string t = "test")
+
+        public List<Indd_PageItem> _AllPageItemsOfType(out List<string> names, string t = "test")
         {
             names = new List<string>();
-            List<PageItem> pi = new List<PageItem>();
-            foreach (PageItem i in p.AllPageItems)
+            List<Indd_PageItem> pi = new List<Indd_PageItem>();
+            foreach (PageItem i in InDesignPage.AllPageItems)
             {
                 PageItem pItem = i as PageItem;
                 string pType = pItem.Name;
                 names.Add(pType);
-                pi.Add(i as PageItem);
+                pi.Add(new Indd_PageItem(i));
             }
-           
-            return  pi;
+
+            return pi;
         }
-
-
 
     }
 }

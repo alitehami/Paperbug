@@ -68,9 +68,11 @@
     <Compile Include="gh_App_RunScript.cs" />
     <Compile Include="gh_Doc_Pages.cs" />
     <Compile Include="gh_App.cs" />
+    <Compile Include="gh_Page_Items.cs" />
     <Compile Include="InDesignInterface\Indd_Application.cs" />
     <Compile Include="InDesignInterface\InddInterop.cs" />
     <Compile Include="InDesignInterface\Indd_Document.cs" />
+    <Compile Include="InDesignInterface\Indd_PageItem.cs" />
     <Compile Include="InDesignInterface\Indd_Page.cs" />
     <Compile Include="gh_App_Docs.cs" />
     <Compile Include="PaperBugInfo.cs" />
