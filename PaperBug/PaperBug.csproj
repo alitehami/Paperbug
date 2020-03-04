@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="gh_App_Doc_Info.cs" />
     <Compile Include="gh_App_Doc_Close.cs" />
     <Compile Include="gh_App_Doc_OpenFromPath.cs" />
     <Compile Include="gh_App_Doc_CreateNew.cs" />
