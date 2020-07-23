@@ -43,38 +43,38 @@ namespace PaperBug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             InDesignInterface.Indd_Page page = null;
-            
+
 
             if (!DA.GetData(0, ref page))
             { return; }
             List<string> names = new List<string>();
 
-            //List<InDesignInterface.Indd_PageItem> items = page._AllPageItemsOfType(out names);
+            List<InDesignInterface.Indd_PageItem> items = page._AllPageItemsOfType(out names);
 
-            //foreach (var t in page.InDesignPage.TextFrames)
-            //{
-            //    TextFrame i = t as TextFrame;
-            //    names.Add(i.Contents.ToString());
-
-            //}
-
-            foreach (var t in page.InDesignPage.PageItems)
+            foreach (var t in page.InDesignPage.TextFrames)
             {
-                PageItem i = t as PageItem;
-                names.Add(i.ItemLayer.Name.ToString());
+                TextFrame i = t as TextFrame;
+                names.Add(i.Contents.ToString());
 
             }
+
+            //foreach (var t in page.InDesignPage.PageItems)
+            //{
+            //    PageItem i = t as PageItem;
+            //    names.Add(i.ItemLayer.Name.ToString());
+
+            //}
 
 
             DA.SetDataList(0, page.InDesignPage.PageItems);
 
-            //DA.SetDataList(0, items);
+            DA.SetDataList(0, items);
 
             if (names != null)
             {
- DA.SetDataList(1, names);
+                DA.SetDataList(1, names);
             }
-           
+
 
         }
 

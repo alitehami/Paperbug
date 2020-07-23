@@ -12,7 +12,7 @@ namespace PaperBug
         /// Initializes a new instance of the OpenDocuments class.
         /// </summary>
         public gh_App_Docs()
-          : base("Open Documents", "Open Docs",
+          : base("Documents", "Docs",
               "Gets A List of All Open Documents in the Input InDesign Application",
               "PaperBug","01.InDesign")
         {
