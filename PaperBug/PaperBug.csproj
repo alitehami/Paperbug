@@ -67,6 +67,7 @@
     <Compile Include="gh_App_Doc_OpenFromPath.cs" />
     <Compile Include="gh_App_Doc_CreateNew.cs" />
     <Compile Include="gh_App_RunScript.cs" />
+    <Compile Include="gh_App_RunScript_Dynamic.cs" />
     <Compile Include="gh_Doc_Pages.cs" />
     <Compile Include="gh_App.cs" />
     <Compile Include="gh_Page_Items.cs" />
